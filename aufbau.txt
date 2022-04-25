@@ -1,0 +1,13 @@
+Objekte / Klassen:
+StartApplication (Aufrufen der anderen Klassen,Methoden etc)
+Analyzer 
+POJO Car (??? je Modell eine csv-Datei mit Monat-Jahr / Verkaufszahl)
+Reporter
+FileService
+
+TODO
+read in data: 3 fies, 3 Arrayists (oder HashMaps?)
+
+analyze data: a) yearly sales B) best month (C) worst month 
+
+ausgabe vom report in der konsole
