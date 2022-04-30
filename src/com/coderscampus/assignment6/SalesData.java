@@ -1,7 +1,7 @@
 package com.coderscampus.assignment6;
 
-public class Car {
+public class SalesData {
 	private String modell = null;
-	private 
+	 
 
 }
