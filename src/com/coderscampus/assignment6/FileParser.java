@@ -10,21 +10,23 @@ public class FileParser {
 	public FileParser(String filename) throws IOException {
 		
 		BufferedReader fileReader = null;
-		ArrayList <String> tempSales = new ArrayList<String>();
+		ArrayList <String[]> tempSales = new ArrayList<String[]>();
 		
 		try {
 			fileReader = new BufferedReader(new FileReader(filename));
 
 			String line = "";
 			while ((line = fileReader.readLine()) != null) {
-				tempSales.add(line);
-				System.out.println(tempSales);
+				String[] newData = line.split(",");			
+				tempSales.add(newData);
 
+				System.out.println(tempSales);
+							
 			}
 
 		} finally {
 
-			fileReader.close();
+			//fileReader.close();
 		}
 	}
 
