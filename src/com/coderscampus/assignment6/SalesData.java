@@ -1,59 +1,50 @@
 package com.coderscampus.assignment6;
 
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
+
+
+
 public class SalesData {
 	private String modell = null;
-	private String monthYear = null;
-	private Integer sales = null; 
+	private YearMonth salesMonth;
+	private Integer sales;
+	 Locale deLocale = Locale.GERMANY;
 
-	public SalesData(String monthYear, String sales) {
-		this.monthYear = monthYear;
+	public SalesData(String salesMo, String sales) {
+		this.salesMonth = YearMonth.parse(salesMo, DateTimeFormatter.ofPattern("MMM-yy", Locale.US));
 		this.sales = Integer.parseInt(sales);
 	}
 
 	public SalesData(String[] array) {
-		this.monthYear = array[0];
+		this.salesMonth = YearMonth.parse(array[0], DateTimeFormatter.ofPattern("MMM-yy", deLocale));
 		this.sales = Integer.parseInt(array[1]);
 	}
-    /**
-     * @return String return the modell
-     */
-    public String getModell() {
-        return modell;
-    }
+    
+	public String getModell() {
+		return modell;
+	}
 
-    /**
-     * @param modell the modell to set
-     */
-    public void setModell(String modell) {
-        this.modell = modell;
-    }
+	public void setModell(String modell) {
+		this.modell = modell;
+	}
 
-    /**
-     * @return String return the monthYear
-     */
-    public String getMonthYear() {
-        return monthYear;
-    }
+	public YearMonth getSalesMonth() {
+		return salesMonth;
+	}
 
-    /**
-     * @param monthYear the monthYear to set
-     */
-    public void setMonthYear(String monthYear) {
-        this.monthYear = monthYear;
-    }
+	public void setSalesMonth(YearMonth salesMonth) {
+		this.salesMonth = salesMonth;
+	}
 
-    /**
-     * @return Integer return the sales
-     */
-    public Integer getSales() {
-        return sales;
-    }
+	public Integer getSales() {
+		return sales;
+	}
 
-    /**
-     * @param sales the sales to set
-     */
-    public void setSales(Integer sales) {
-        this.sales = sales;
-    }
+	public void setSales(Integer sales) {
+		this.sales = sales;
+	}
 
 }

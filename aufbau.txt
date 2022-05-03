@@ -6,8 +6,9 @@ Reporter
 FileService
 
 TODO
-read in data: 3 fies, 3 Arrayists (oder HashMaps?)
+read in data: 3 fies, 3 ArrayLists vom BufferedReader, die wandel in -->  (oder HashMaps. k: monthYear, <v:  sales)
 
-analyze data: a) yearly sales B) best month (C) worst month 
+analyze data (jedes Modell/File für sich): a) yearly sales B) best month (C) worst month 
+	fröhliches streamen
 
 ausgabe vom report in der konsole
