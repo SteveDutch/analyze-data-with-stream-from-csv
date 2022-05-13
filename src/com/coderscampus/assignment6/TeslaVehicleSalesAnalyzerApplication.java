@@ -28,24 +28,56 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		Map<YearMonth, Integer> modelS = report.readModel(fileModelS);
 		Map<YearMonth, Integer> modelX = report.readModel(fileModelX);
 
+		Set<Entry<YearMonth, Integer>> entries3 = model3.entrySet();
+		Set<Entry<YearMonth, Integer>> entriesS = modelS.entrySet();
+		Set<Entry<YearMonth, Integer>> entriesX = modelX.entrySet();
+		
+		
+		YearMonth jan2016 = YearMonth.of(2016, 1); 
+		YearMonth jan2017 = YearMonth.of(2017, 1);
+		YearMonth jan2018 = YearMonth.of(2018, 1); 
+		YearMonth jan2019 = YearMonth.of(2019, 1);
+		YearMonth jan2020 = YearMonth.of(2020, 1); 
+
+
+		
+		IntSummaryStatistics sales3year2017 = entries3.stream()
+				.filter(ex -> ex.getKey().getYear() == (jan2017.getYear()))
+				.mapToInt((x) -> x.getValue()).summaryStatistics();
+		
+		IntSummaryStatistics sales3year2018 = entries3.stream().filter(ex -> ex.getKey().getYear() == (jan2018.getYear()))
+				.mapToInt((x) -> x.getValue()).summaryStatistics();
+		IntSummaryStatistics sales3year2019 = entries3.stream().filter(ex -> ex.getKey().getYear() == (jan2019.getYear()))
+				.mapToInt((x) -> x.getValue()).summaryStatistics();
+		
+
 		System.out.println(model3.get(YearMonth.of(2017, 12)));
 		System.out.println(modelS.get(YearMonth.of(2017, 12)));
 		System.out.println("dies ist get(YearMonth) 2017-12 von modelX " + modelX.get(YearMonth.of(2017, 12)));
 		System.out.println("dies ist Integer 3300 von modelX (modelX.get(3300)) funkt. aber nicht \n" + modelX.get(3300));
 
+//		-> TODO hier
+
+
+		IntSummaryStatistics testSales20173 = entries3.stream().mapToInt((x) -> x.getValue()).summaryStatistics();
+		Optional<Entry<YearMonth, Integer>> maxMonth = entries3.stream()
+				.filter(ex -> ex.getValue() == testSales20173.getMax()).findFirst();
+		Optional<Entry<YearMonth, Integer>> minMonth = entries3.stream()
+				.filter(ex -> ex.getValue() == testSales20173.getMin()).findFirst();
+		
+		
+		
 		// TODO da ich dies 3x printen soll -> Methode, gell?
 		System.out.println("Model 3 Yearly Sales Report");
 		System.out.println("---------------------------");
-		System.out.println("2017 ->");
-		System.out.println("2018 ->");
-		System.out.println("2019 ->");
-		System.out.println("\nThe best month for Model 3 was: yyyy-MM");
-		System.out.println("The worst month for Model 3 was: yyyy-MM\n");
+		System.out.println("2017 ->  " + sales3year2017.getSum());
+		System.out.println("2018 ->  " + sales3year2018.getSum());
+		System.out.println("2019 ->  " + sales3year2019.getSum());
+		System.out.println("\nThe best month for Model 3 was: " + maxMonth.get().getKey());
+		System.out.println("The worst month for Model 3 was: " +  minMonth.get().getKey() + "\n");
 		
 
-		Set<Entry<YearMonth, Integer>> entries3 = model3.entrySet();
-		Set<Entry<YearMonth, Integer>> entriesS = modelS.entrySet();
-		Set<Entry<YearMonth, Integer>> entriesX = modelX.entrySet();
+
 		// Collection<Integer> values = someMap.values();	}
 		System.out.println("entry-set of model x =  " + entriesX);
 //		Integer year20173  = entries3.stream()
@@ -57,16 +89,15 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		.forEach((elem) -> {System.out.print("stream-Zugriff auf key (elem.getKey) -> " + elem.getKey());});
 //		entries.stream()
 //				.max(elem1, elem2.getValue()) :: elem1.getValue().compareTo(elem2.getValue());
-		YearMonth testbefore2017 = YearMonth.of(2017, 1); 
 		Stream<Entry<YearMonth,Integer>> YearSales20173 = entries3.stream()
-										.filter((elem) -> elem.getKey().isBefore(testbefore2017));
+										.filter((elem) -> elem.getKey().isBefore(jan2017));
 									//	.reduce((elem1.getValue()), elem2.getValue()) :: elem1.getValue() + elem2.getValue();
 		System.out.println(YearSales20173);
-//		IntSummaryStatistics Sales20173 = YearSales20173.mapToInt((x) -> x.getValue()).summaryStatistics();
 		
+
 		//Versuch mit filter()/.getMonthDate
 		Stream<Entry<YearMonth, Integer>> result = YearSales20173
-                .filter(ex -> ex.getKey().getYear() == (testbefore2017.getYear()));
+                .filter(ex -> ex.getKey().getYear() == (jan2017.getYear()));
 		IntSummaryStatistics result2 = result.mapToInt((x) -> x.getValue()).summaryStatistics();
                
 		
@@ -77,7 +108,7 @@ public class TeslaVehicleSalesAnalyzerApplication {
 //		.min((entry1.getKey(), entry2.getKey()) -> entry1.get.compareTo(entry2.get()));
 		
 		// TODO not quite sure how it works... but it does! here is the max coming!
-		IntSummaryStatistics stats = entries3.stream().filter(ex -> ex.getKey().getYear() == (testbefore2017.getYear()))
+		IntSummaryStatistics stats = entries3.stream().filter(ex -> ex.getKey().getYear() == (jan2017.getYear()))
 											.mapToInt((x) -> x.getValue()).summaryStatistics();
 		System.out.println("hier kriege ich die summe, müßte nur noch auf das gewünschte jahr reduzieren ..." + stats.getSum() + "yessssssssssss");
 		entriesX.stream()

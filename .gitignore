@@ -26,3 +26,4 @@ hs_err_pid*
 .gitignore
 .project
 test/com/coderscampus/assignment6/SalesDataTest.java
+.~lock.model3.csv#
