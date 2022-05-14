@@ -23,24 +23,23 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		final String fileModelS = "modelS.csv";
 		final String fileModelX = "modelX.csv";
 		FileParser report = new FileParser();
-
+		
+		//read in files
 		Map<YearMonth, Integer> model3 = report.readModel(fileModel3);
 		Map<YearMonth, Integer> modelS = report.readModel(fileModelS);
 		Map<YearMonth, Integer> modelX = report.readModel(fileModelX);
-
+		// preparedata for analyzing
 		Set<Entry<YearMonth, Integer>> entries3 = model3.entrySet();
 		Set<Entry<YearMonth, Integer>> entriesS = modelS.entrySet();
 		Set<Entry<YearMonth, Integer>> entriesX = modelX.entrySet();
 		
-		
+		// date variables for streams 
 		YearMonth jan2016 = YearMonth.of(2016, 1); 
 		YearMonth jan2017 = YearMonth.of(2017, 1);
 		YearMonth jan2018 = YearMonth.of(2018, 1); 
 		YearMonth jan2019 = YearMonth.of(2019, 1);
-		YearMonth jan2020 = YearMonth.of(2020, 1); 
-
-
 		
+		// streams: get yearly ssales (model 3)
 		IntSummaryStatistics sales3year2017 = entries3.stream()
 				.filter(ex -> ex.getKey().getYear() == (jan2017.getYear()))
 				.mapToInt((x) -> x.getValue()).summaryStatistics();
@@ -50,20 +49,16 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		IntSummaryStatistics sales3year2019 = entries3.stream().filter(ex -> ex.getKey().getYear() == (jan2019.getYear()))
 				.mapToInt((x) -> x.getValue()).summaryStatistics();
 		
+		// Verständnis SYSOs
+//		System.out.println("dies ist get(YearMonth) 2017-12 von modelX :  " + modelX.get(YearMonth.of(2017, 12)));
+//		System.out.println("dies ist  (modelX.get(3300)) funkt. aber nicht : " + modelX.get(3300));
 
-		System.out.println(model3.get(YearMonth.of(2017, 12)));
-		System.out.println(modelS.get(YearMonth.of(2017, 12)));
-		System.out.println("dies ist get(YearMonth) 2017-12 von modelX " + modelX.get(YearMonth.of(2017, 12)));
-		System.out.println("dies ist Integer 3300 von modelX (modelX.get(3300)) funkt. aber nicht \n" + modelX.get(3300));
-
-//		-> TODO hier
-
-
-		IntSummaryStatistics testSales20173 = entries3.stream().mapToInt((x) -> x.getValue()).summaryStatistics();
+		// -> monthly statistics (model 3)
+		IntSummaryStatistics monthlySalesStatistics = entries3.stream().mapToInt((x) -> x.getValue()).summaryStatistics();
 		Optional<Entry<YearMonth, Integer>> maxMonth = entries3.stream()
-				.filter(ex -> ex.getValue() == testSales20173.getMax()).findFirst();
+				.filter(ex -> ex.getValue() == monthlySalesStatistics.getMax()).findFirst();
 		Optional<Entry<YearMonth, Integer>> minMonth = entries3.stream()
-				.filter(ex -> ex.getValue() == testSales20173.getMin()).findFirst();
+				.filter(ex -> ex.getValue() == monthlySalesStatistics.getMin()).findFirst();
 		
 		
 		
@@ -76,60 +71,41 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		System.out.println("\nThe best month for Model 3 was: " + maxMonth.get().getKey());
 		System.out.println("The worst month for Model 3 was: " +  minMonth.get().getKey() + "\n");
 		
+		
+		// TODOmaybe do  it like Dan: put all learn stuff in an extra class
 
-
-		// Collection<Integer> values = someMap.values();	}
-		System.out.println("entry-set of model x =  " + entriesX);
-//		Integer year20173  = entries3.stream()
-//				.forEach((entry) -> entry.getValue());
-	
-		entries3.stream()
-				.forEach((elem) -> {System.out.print("stream-Zugriff auf value (elem.getValue) ->" + elem.getValue());});
+		// for me to learn: how wrap syso in.forEach
 		entries3.stream()
 		.forEach((elem) -> {System.out.print("stream-Zugriff auf key (elem.getKey) -> " + elem.getKey());});
-//		entries.stream()
-//				.max(elem1, elem2.getValue()) :: elem1.getValue().compareTo(elem2.getValue());
+		
 		Stream<Entry<YearMonth,Integer>> YearSales20173 = entries3.stream()
 										.filter((elem) -> elem.getKey().isBefore(jan2017));
-									//	.reduce((elem1.getValue()), elem2.getValue()) :: elem1.getValue() + elem2.getValue();
-		System.out.println(YearSales20173);
-		
+										
 
 		//Versuch mit filter()/.getMonthDate
 		Stream<Entry<YearMonth, Integer>> result = YearSales20173
                 .filter(ex -> ex.getKey().getYear() == (jan2017.getYear()));
 		IntSummaryStatistics result2 = result.mapToInt((x) -> x.getValue()).summaryStatistics();
                
-		
+		//zwar kein Compilation-Fehler,abernicht das gewünscheErgebnis, oder: was wid hie gegroupt?
 		Map<Object, Integer> YearSales2017X = entriesX.stream()
 						.collect(Collectors.groupingBy(Entry::getKey, Collectors.summingInt(Entry::getValue)));
 		System.out.println("another try with grouping by ...:  " + YearSales2017X);
-		//		entries.stream()
-//		.min((entry1.getKey(), entry2.getKey()) -> entry1.get.compareTo(entry2.get()));
 		
-		// TODO not quite sure how it works... but it does! here is the max coming!
+		
+		// TODO not quite sure how it works... but it does! here is the max coming! ... schön,wenn ein Plan gelingt ;)
 		IntSummaryStatistics stats = entries3.stream().filter(ex -> ex.getKey().getYear() == (jan2017.getYear()))
 											.mapToInt((x) -> x.getValue()).summaryStatistics();
 		System.out.println("hier kriege ich die summe, müßte nur noch auf das gewünschte jahr reduzieren ..." + stats.getSum() + "yessssssssssss");
-		entriesX.stream()
-				.forEach((x) -> x.getKey());
-		// Optional<Integer> minNumber = entries.stream().min(elem1.getValue(), elem2.getValue()); -> {elem1.compareTo(elem2);}
 		
-//		System.out.printl("Max merge time=%d%n", ((Entry<YearMonth, Integer>) entries).getValue().stream().max(Integer::compare).get());
-		
-//		Optional<YearMonth> optionalIsbn = model3.entrySet().stream()
-//				  .filter(e -> stats.getMax().equals(e.getValue().intValue()))
-//				  .map(Map.Entry::getKey)
-//				  .findFirst();
-//
-//		-->	hier weiter		assertEquals("978-0134685991", optionalIsbn.get());
+		// oh, eine frühe Version, die funktioniert hätte, hätte ich den Hinweis auf equals verstanden
+		// TODOcheck if it's better than my code above
+		Optional<YearMonth> optionalIsbn = model3.entrySet().stream()
+				  .filter(e -> stats.getMax() == (e.getValue().intValue()))
+				  .map(Map.Entry::getKey)
+				  .findFirst();
+		System.out.println(optionalIsbn.toString());
 
-//		Optional<Integer> minNumber = entries
-//		.stream()
-//		.max(Comparator.comparingInt(entries :: elem.getValue));
-//		entries3.stream()
-//		.map((elem) -> elem.getKey(withYear(2019))
-//				.forEach((x) -> System.out.println("stream-Zugriff auf key (elem.getKey) -> ")));
 	}
 
 }

@@ -27,3 +27,5 @@ hs_err_pid*
 .project
 test/com/coderscampus/assignment6/SalesDataTest.java
 .~lock.model3.csv#
+.~lock.modelS.csv#
+.~lock.modelX.csv#
