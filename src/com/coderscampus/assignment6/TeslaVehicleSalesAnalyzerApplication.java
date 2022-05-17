@@ -17,12 +17,19 @@ import java.util.function.Function;
 
 public class TeslaVehicleSalesAnalyzerApplication {
 
+	
+
+//	public TeslaVehicleSalesAnalyzerApplication(SalesAnalyzer aSalesAnalyzer) {
+//		salesAnalyzer = aSalesAnalyzer;
+//	}
+
 	public static void main(String[] args) throws IOException {
 		
 		final String fileModel3 = "model3.csv";
 		final String fileModelS = "modelS.csv";
 		final String fileModelX = "modelX.csv";
 		FileParser report = new FileParser();
+		SalesAnalyzer aSalesAnalyzer = new SalesAnalyzer();
 		
 		//read in files
 		Map<YearMonth, Integer> model3 = report.readModel(fileModel3);
@@ -39,33 +46,45 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		YearMonth jan2018 = YearMonth.of(2018, 1); 
 		YearMonth jan2019 = YearMonth.of(2019, 1);
 		
-		// streams: get yearly sales (model 3)
-		SalesAnalyzer.yearlySales(model3, jan2017); //jetzt dirkt beim syso TODO hier löschbar
 		
 		// Verständnis SYSOs
 //		System.out.println("dies ist get(YearMonth) 2017-12 von modelX :  " + modelX.get(YearMonth.of(2017, 12)));
 //		System.out.println("dies ist  (modelX.get(3300)) funkt. aber nicht : " + modelX.get(3300));
 
 		// -> monthly statistics (model 3)
-		IntSummaryStatistics monthlySalesStatistics = entries3.stream().mapToInt((x) -> x.getValue()).summaryStatistics();
-		Optional<Entry<YearMonth, Integer>> maxMonth = entries3.stream()
-				.filter(ex -> ex.getValue() == monthlySalesStatistics.getMax()).findFirst();
-		Optional<Entry<YearMonth, Integer>> minMonth = entries3.stream()
-				.filter(ex -> ex.getValue() == monthlySalesStatistics.getMin()).findFirst();
+//		IntSummaryStatistics monthlySalesStatistics = aSalesAnalyzer.getmonthlySaleStatistics(model3);
+//		Optional<Entry<YearMonth, Integer>> maxMonth = extracted(entries3, monthlySalesStatistics);
+//		Optional<Entry<YearMonth, Integer>> minMonth = entries3.stream()
+//				.filter(ex -> ex.getValue() == monthlySalesStatistics.getMin()).findFirst();
 		
-		
-		
+				
 		// TODO da ich dies 3x printen soll -> Methode, gell?
 		System.out.println("Model 3 Yearly Sales Report");
 		System.out.println("---------------------------");
-		System.out.println("2017 ->  " + SalesAnalyzer.yearlySales(model3, jan2017).getSum());
-		System.out.println("2018 ->  " + SalesAnalyzer.yearlySales(model3, jan2018).getSum());
-		System.out.println("2019 ->  " + SalesAnalyzer.yearlySales(model3, jan2019).getSum());
-		System.out.println("\nThe best month for Model 3 was: " + maxMonth.get().getKey());
-		System.out.println("The worst month for Model 3 was: " +  minMonth.get().getKey() + "\n");
+		System.out.println("2017 ->  " + aSalesAnalyzer.yearlySales(model3, jan2017).getSum());
+		System.out.println("2018 ->  " + aSalesAnalyzer.yearlySales(model3, jan2018).getSum());
+		System.out.println("2019 ->  " + aSalesAnalyzer.yearlySales(model3, jan2019).getSum());
+		System.out.println("\nThe best month for Model 3 was: " + aSalesAnalyzer.getmonthlySalesMax(model3).get().getKey());
+		System.out.println("The worst month for Model 3 was: " +  aSalesAnalyzer.getmonthlySalesMin(model3).get().getKey() + "\n");
 		
+		System.out.println("Model S Yearly Sales Report");
+		System.out.println("---------------------------");
+		System.out.println("2017 ->  " + aSalesAnalyzer.yearlySales(modelS, jan2016).getSum());
+		System.out.println("2017 ->  " + aSalesAnalyzer.yearlySales(modelS, jan2017).getSum());
+		System.out.println("2018 ->  " + aSalesAnalyzer.yearlySales(modelS, jan2018).getSum());
+		System.out.println("2019 ->  " + aSalesAnalyzer.yearlySales(modelS, jan2019).getSum());
+		System.out.println("\nThe best month for Model S was: " + aSalesAnalyzer.getmonthlySalesMax(modelS).get().getKey());
+		System.out.println("The worst month for Model S was: " +  aSalesAnalyzer.getmonthlySalesMin(modelS).get().getKey() + "\n");
 		
-		// TODOmaybe do  it like Dan: put all learn stuff in an extra class
+		System.out.println("Model X Yearly Sales Report");
+		System.out.println("---------------------------");
+		System.out.println("2016 ->  " + aSalesAnalyzer.yearlySales(modelX, jan2016).getSum());
+		System.out.println("2017 ->  " + aSalesAnalyzer.yearlySales(modelX, jan2017).getSum());
+		System.out.println("2018 ->  " + aSalesAnalyzer.yearlySales(modelX, jan2018).getSum());
+		System.out.println("2019 ->  " + aSalesAnalyzer.yearlySales(modelX, jan2019).getSum());
+		System.out.println("\nThe best month for Model X was: " + aSalesAnalyzer.getmonthlySalesMax(modelX).get().getKey());
+		System.out.println("The worst month for Model X was: " +  aSalesAnalyzer.getmonthlySalesMin(modelX).get().getKey() + "\n");
+		// TODO maybe do  it like Dan: put all learn stuff in an extra class
 
 		// for me to learn: how wrap syso in.forEach
 		entries3.stream()
@@ -97,9 +116,12 @@ public class TeslaVehicleSalesAnalyzerApplication {
 				  .filter(e -> stats.getMax() == (e.getValue().intValue()))
 				  .map(Map.Entry::getKey)
 				  .findFirst();
-		System.out.println(optionalIsbn.toString());
+		System.out.println("how to print an optional" + optionalIsbn.get().toString());
 
 	}
+
+	
+	
 
 
 }
