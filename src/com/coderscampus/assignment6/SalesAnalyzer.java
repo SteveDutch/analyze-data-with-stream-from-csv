@@ -9,9 +9,9 @@ import java.util.Map.Entry;
 
 public class SalesAnalyzer {
 	
-	public IntSummaryStatistics yearlySales(Map<YearMonth, Integer> teslaModel, YearMonth yearmonth) {
+	public IntSummaryStatistics yearlySales(Map<YearMonth, Integer> teslaModel, Integer year) {
 		Set<Entry<YearMonth, Integer>> entries = teslaModel.entrySet();
-
+		YearMonth yearmonth = YearMonth.of(year, 1); 
 		IntSummaryStatistics salesthisyear = entries.stream()
 				.filter(ex -> ex.getKey().getYear() == (yearmonth.getYear()))
 				.mapToInt((x) -> x.getValue()).summaryStatistics();
