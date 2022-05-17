@@ -39,15 +39,8 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		YearMonth jan2018 = YearMonth.of(2018, 1); 
 		YearMonth jan2019 = YearMonth.of(2019, 1);
 		
-		// streams: get yearly ssales (model 3)
-		IntSummaryStatistics sales3year2017 = entries3.stream()
-				.filter(ex -> ex.getKey().getYear() == (jan2017.getYear()))
-				.mapToInt((x) -> x.getValue()).summaryStatistics();
-		
-		IntSummaryStatistics sales3year2018 = entries3.stream().filter(ex -> ex.getKey().getYear() == (jan2018.getYear()))
-				.mapToInt((x) -> x.getValue()).summaryStatistics();
-		IntSummaryStatistics sales3year2019 = entries3.stream().filter(ex -> ex.getKey().getYear() == (jan2019.getYear()))
-				.mapToInt((x) -> x.getValue()).summaryStatistics();
+		// streams: get yearly sales (model 3)
+		SalesAnalyzer.yearlySales(model3, jan2017); //jetzt dirkt beim syso TODO hier löschbar
 		
 		// Verständnis SYSOs
 //		System.out.println("dies ist get(YearMonth) 2017-12 von modelX :  " + modelX.get(YearMonth.of(2017, 12)));
@@ -65,9 +58,9 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		// TODO da ich dies 3x printen soll -> Methode, gell?
 		System.out.println("Model 3 Yearly Sales Report");
 		System.out.println("---------------------------");
-		System.out.println("2017 ->  " + sales3year2017.getSum());
-		System.out.println("2018 ->  " + sales3year2018.getSum());
-		System.out.println("2019 ->  " + sales3year2019.getSum());
+		System.out.println("2017 ->  " + SalesAnalyzer.yearlySales(model3, jan2017).getSum());
+		System.out.println("2018 ->  " + SalesAnalyzer.yearlySales(model3, jan2018).getSum());
+		System.out.println("2019 ->  " + SalesAnalyzer.yearlySales(model3, jan2019).getSum());
 		System.out.println("\nThe best month for Model 3 was: " + maxMonth.get().getKey());
 		System.out.println("The worst month for Model 3 was: " +  minMonth.get().getKey() + "\n");
 		
@@ -107,6 +100,7 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		System.out.println(optionalIsbn.toString());
 
 	}
+
 
 }
 
