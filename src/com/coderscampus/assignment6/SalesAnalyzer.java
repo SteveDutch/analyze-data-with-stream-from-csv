@@ -1,6 +1,8 @@
 package com.coderscampus.assignment6;
 
 import java.time.YearMonth;
+import java.time.Year;
+import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.Map;
 import java.util.Optional;
@@ -8,6 +10,14 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 public class SalesAnalyzer {
+	
+	public Year years[] = null;
+	
+	public void /* Year[] */ saleYears(Map<YearMonth, Integer> teslaModel) {
+		Set<Entry<YearMonth, Integer>> entries = teslaModel.entrySet();
+		Object[] years = entries.stream().map(ex -> ex.getKey().getYear()).distinct().toArray(); 
+		System.out.println(Arrays.toString(years));
+	}
 
 	public IntSummaryStatistics yearlySales(Map<YearMonth, Integer> teslaModel, Integer year) {
 		Set<Entry<YearMonth, Integer>> entries = teslaModel.entrySet();

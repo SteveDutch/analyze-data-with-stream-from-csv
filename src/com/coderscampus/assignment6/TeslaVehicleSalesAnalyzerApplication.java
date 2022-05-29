@@ -11,15 +11,18 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		final String fileModel3 = "model3.csv";
 		final String fileModelS = "modelS.csv";
 		final String fileModelX = "modelX.csv";
-		FileParser report = new FileParser();
+		FileParser fileParser = new FileParser();
 		SalesAnalyzer aSalesAnalyzer = new SalesAnalyzer();
 		Printer printer = new Printer();
 
 		// read in files
-		Map<YearMonth, Integer> model3 = report.readModel(fileModel3);
-		Map<YearMonth, Integer> modelS = report.readModel(fileModelS);
-		Map<YearMonth, Integer> modelX = report.readModel(fileModelX);
+		Map<YearMonth, Integer> model3 = fileParser.readModel(fileModel3);
+		Map<YearMonth, Integer> modelS = fileParser.readModel(fileModelS);
+		Map<YearMonth, Integer> modelX = fileParser.readModel(fileModelX);
 
+		aSalesAnalyzer.saleYears(model3);
+		
+		
 		// show reports
 		printer.showResultsThreeYears(aSalesAnalyzer, model3, "Model 3");
 		printer.showResults(aSalesAnalyzer, modelS, "Model S");
