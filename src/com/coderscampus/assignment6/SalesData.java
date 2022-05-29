@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class SalesData {
+	
 	private String modell = null;
 	private YearMonth salesMonth;
 	private Integer sales;

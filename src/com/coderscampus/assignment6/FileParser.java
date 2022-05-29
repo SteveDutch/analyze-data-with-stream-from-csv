@@ -14,7 +14,6 @@ public class FileParser {
 		// if I wanted to try with an ArrayList:
 //		ArrayList<SalesData> tempSalesArLi= new ArrayList<SalesData>();
 		HashMap<YearMonth, Integer> haMa = new HashMap<>();
-		// TODO catch an empty row in data? ergibt ArrayIndexOutOfBoundsException
 		try {
 			fileReader = new BufferedReader(new FileReader(filename));
 
