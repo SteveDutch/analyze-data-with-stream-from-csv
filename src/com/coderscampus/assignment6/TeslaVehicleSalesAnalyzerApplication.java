@@ -20,10 +20,15 @@ public class TeslaVehicleSalesAnalyzerApplication {
 		Map<YearMonth, Integer> modelS = fileParser.readModel(fileModelS);
 		Map<YearMonth, Integer> modelX = fileParser.readModel(fileModelX);
 
-		aSalesAnalyzer.saleYears(model3);
-		
+		Object[] saleYearsModel3 = aSalesAnalyzer.saleYears(model3);
+		Object[] saleYearsModelS = aSalesAnalyzer.saleYears(modelS);
+		Object[] saleYearsModelX = aSalesAnalyzer.saleYears(modelX);
 		
 		// show reports
+		printer.showflexResults(aSalesAnalyzer, model3, "Model 3", saleYearsModel3);
+		printer.showflexResults(aSalesAnalyzer, modelS, "Model S", saleYearsModelS);
+		printer.showflexResults(aSalesAnalyzer, modelX, "Model X", saleYearsModelX);
+		
 		printer.showResultsThreeYears(aSalesAnalyzer, model3, "Model 3");
 		printer.showResults(aSalesAnalyzer, modelS, "Model S");
 		printer.showResults(aSalesAnalyzer, modelX, "Model X");
